@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  mobile.bff.webapi:
+    image: ${DOCKER_REGISTRY-}mobilebffwebapi
+    build:
+      context: .
+      dockerfile: ApiGateways/Mobile.Bff/WebAPI/Dockerfile
