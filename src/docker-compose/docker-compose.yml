@@ -5,4 +5,4 @@ services:
     image: ${DOCKER_REGISTRY-}mobilebffwebapi
     build:
       context: .
-      dockerfile: ApiGateways/Mobile.Bff/WebAPI/Dockerfile
+      dockerfile: ../ApiGateways/Mobile.Bff/WebAPI/Dockerfile

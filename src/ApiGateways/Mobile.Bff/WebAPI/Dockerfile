@@ -1,17 +1,20 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:5.0-focal AS base
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0-focal AS build
-ARG Version=0.0.1.0
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
+COPY ["ApiGateways/Mobile.Bff/WebAPI/Mobile.Bff.WebAPI.csproj", "ApiGateways/Mobile.Bff/WebAPI/"]
+RUN dotnet restore "ApiGateways/Mobile.Bff/WebAPI/Mobile.Bff.WebAPI.csproj"
 COPY . .
-WORKDIR "./src/WebAPI"
-RUN dotnet build "Mobile.Bff.WebAPI.csproj" -c Release -o /app/build -p:Version=$Version
+WORKDIR "/src/ApiGateways/Mobile.Bff/WebAPI"
+RUN dotnet build "Mobile.Bff.WebAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG Version=0.0.1.0
-RUN dotnet publish "Mobile.Bff.WebAPI.csproj" -c Release -o /app/publish -p:Version=$Version
+RUN dotnet publish "Mobile.Bff.WebAPI.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
