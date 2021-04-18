@@ -9,7 +9,10 @@ services:
       - E:/Dev/EStore-volumes/data_dir:/data/teamcity_server/datadir
       - E:/Dev/EStore-volumes/log_dir:/opt/teamcity/logs
   teamcity-agent-1:
-    image: jetbrains/teamcity-agent:2020.2.3
+    #image: jetbrains/teamcity-agent:2020.2.3
+    build:
+      context: .
+      dockerfile: Dockerfiles/teamcity-agent.dotnet5.Dockerfile
     privileged: true
     volumes:
       - E:/Dev/EStore-volumes/agents/agent-1/conf:/data/teamcity_agent/conf
